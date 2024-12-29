@@ -7,10 +7,13 @@ const {
   GatewayIntentBits,
   MessageFlags,
   Message,
+  WebhookClient,
 } = require("discord.js");
 const { token } = require("./config.json");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+const webhook = new WebhookClient({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, "commands");
