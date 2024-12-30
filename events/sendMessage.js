@@ -1,11 +1,11 @@
-// const { Events } = require("discord.js");
+import { Events } from "discord.js";
 
-// module.exports = {
-//   name: Events.ClientReady,
-//   once: true,
-//   execute(client) {
-//     const channel = client.channels
-//       .fetch("1321994435185213483")
-//       .then((channel) => channel.send("hello"));
-//   },
-// };
+export const name = Events.ClientReady;
+
+export const once = true;
+
+export async function execute(client) {
+  const channel = client.channels
+    .fetch("1321994435185213483")
+    .then((channel) => channel.send("hello"));
+}

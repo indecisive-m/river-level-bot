@@ -1,6 +1,6 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const {
+import fs from "node:fs";
+import path from "node:path";
+import {
   Client,
   Collection,
   Events,
@@ -8,8 +8,15 @@ const {
   MessageFlags,
   Message,
   WebhookClient,
-} = require("discord.js");
-const { token } = require("./config.json");
+} from "discord.js";
+
+import config from "./config.json" with {type: "json"};
+import { fileURLToPath } from 'node:url';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -26,7 +33,7 @@ for (const folder of commandFolders) {
     .filter((file) => file.endsWith(".js"));
   for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
+    const command = await import(filePath);
     if ("data" in command && "execute" in command) {
       client.commands.set(command.data.name, command);
     } else {
@@ -44,7 +51,7 @@ const eventFiles = fs
 
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
-  const event = require(filePath);
+  const event = await import(filePath);
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
@@ -52,4 +59,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(token);
+client.login(config.token);

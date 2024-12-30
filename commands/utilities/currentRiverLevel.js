@@ -1,31 +1,30 @@
-const { SlashCommandBuilder } = require("discord.js");
+import { SlashCommandBuilder } from "discord.js";
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("river")
-    .setDescription("Returns the most recent river level reading"),
-  async execute(interaction) {
-    const url =
-      "https://environment.data.gov.uk/flood-monitoring/id/stations/52124/measures";
+export const data = new SlashCommandBuilder()
+  .setName("river")
+  .setDescription("Returns the most recent river level reading");
 
-    async function fetchRiverLevelsData() {
-      const res = await fetch(url);
-      const result = await res.json();
+export async function execute(interaction) {
+  const url =
+    "https://environment.data.gov.uk/flood-monitoring/id/stations/52124/measures";
 
-      const items = result.items;
+  async function fetchRiverLevelsData() {
+    const res = await fetch(url);
+    const result = await res.json();
 
-      const dateTime = items[0]?.latestReading?.dateTime;
-      const measure = items[0]?.latestReading?.value;
+    const items = result.items;
 
-      const date = new Date(dateTime).toLocaleDateString();
+    const dateTime = items[0]?.latestReading?.dateTime;
+    const measure = items[0]?.latestReading?.value;
 
-      const time = new Date(dateTime).toLocaleTimeString();
+    const date = new Date(dateTime).toLocaleDateString();
 
-      return `The measurement at ${time} on ${date} is ${measure}m`;
-    }
+    const time = new Date(dateTime).toLocaleTimeString();
 
-    const levels = await fetchRiverLevelsData();
+    return `The measurement at ${time} on ${date} is ${measure}m`;
+  }
 
-    await interaction.reply(levels);
-  },
-};
+  const levels = await fetchRiverLevelsData();
+
+  await interaction.reply(levels);
+}
