@@ -11,12 +11,10 @@ import {
 } from "discord.js";
 
 import config from "./config.json" with {type: "json"};
-import { fileURLToPath } from 'node:url';
-
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -60,3 +58,19 @@ for (const file of eventFiles) {
 }
 
 client.login(config.token);
+
+/**
+//  * Welcome to Cloudflare Workers! This is your first worker.
+//  *
+//  * - Run `npx wrangler dev src/index.js` in your terminal to start a development server
+//  * - Open a browser tab at http://localhost:8787/ to see your worker in action
+//  * - Run `npx wrangler publish src/index.js --name my-worker` to publish your worker
+//  *
+//  * Learn more at https://developers.cloudflare.com/workers/
+//  */
+
+// export default {
+//   async fetch(request, env, ctx) {
+//     return new Response("Hello World!");
+//   },
+// };

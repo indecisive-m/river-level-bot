@@ -27,3 +27,5 @@ logs
 
 
 config.json
+wrangler.toml
+.wrangler
