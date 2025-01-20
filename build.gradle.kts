@@ -22,6 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     implementation("io.ktor:ktor-client-logging:$ktor_version")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.5.0")
     testImplementation(kotlin("test"))
 
 }

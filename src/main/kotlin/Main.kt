@@ -3,6 +3,7 @@ package org.example
 import data.Post
 import data.RiverLevel
 import data.Urgency
+import io.github.cdimascio.dotenv.dotenv
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -21,6 +22,12 @@ import java.util.*
 
 
 val THRESHOLD = 6
+
+
+val dotenv = dotenv()
+val discord_webhook = dotenv["DISCORD_WEBHOOK_URL"]
+val environmentAgencyUrl = dotenv["ENVIRONMENT_AGENCY_URL"]
+
 
 val client = HttpClient(CIO) {
     install(Logging) {
@@ -41,10 +48,9 @@ val client = HttpClient(CIO) {
 
 suspend fun main() {
 
-
     try {
         val response: RiverLevel =
-            client.get("https://environment.data.gov.uk/flood-monitoring/id/stations/52124/measures").body()
+            client.get(environmentAgencyUrl).body()
 
         val measure = response.items[0].latestReading.value
         val date = response.items[0].latestReading.date
@@ -84,7 +90,7 @@ suspend fun sendDiscordMessage(time: String, date: String, measure: Double, urge
 
 
     val post: HttpResponse =
-        client.post("https://discord.com/api/webhooks/1323029259073093652/MCehx9lS5amarNdtg5iIdqmy9K0IkXxLnL4S0BI5GqhJsWLrRgOYMjlVoQk8x19JFF-l") {
+        client.post(discord_webhook) {
             contentType(ContentType.Application.Json)
             setBody(body = Post(riverLevelMessage))
 
